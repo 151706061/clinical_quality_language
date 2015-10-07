@@ -18,9 +18,12 @@
   "devDependencies": {
     "coffee-script": "^1.8.0",
     "mocha": "^1.21.5",
-    "should": "^4.0.4",
-    "coveralls": "^2.11.2",
+    "should": "^4.0.4"
   },
+  "dependencies" : {
+    "ucum.js" : ""
+    },
+
   "main" : "lib/cql",
   "directories" : {
       "lib" : "lib"

@@ -5,11 +5,12 @@
 Quantity = require './quantity'
 
 quantitiesOrArg = (arr) ->
-  if arr[0]?.constructor.name == "Quantity"
+  arr = compact(arr)
+  if arr[0]?.unit
     unit = arr[0].unit
     values = []
     for i in arr
-      if i.constructor.name == "Quantity" && i.unit == unit 
+      if i.unit == unit 
         values.push i.value
       else
         return []  
@@ -19,7 +20,7 @@ quantitiesOrArg = (arr) ->
 
 
 quantityOrValue = (value, arr) ->
-  if arr?[0]?.constructor.name == "Quantity" 
+  if arr?[0]?.unit
     Quantity.createQuantity(value, arr[0].unit)
   else
     value
@@ -57,7 +58,6 @@ module.exports.Sum = class Sum extends AggregateExpression
   exec: (ctx) ->
     arg = @source.exec(ctx)
     if typeIsArray(arg)
-      arg = compact(arg)
       filtered =  quantitiesOrArg(arg)
       val = if filtered.length == 0 then null else filtered.reduce (x,y) -> x+y
       quantityOrValue(val, arg)
@@ -82,7 +82,6 @@ module.exports.Min = class Min extends AggregateExpression
   exec: (ctx) ->
     arg = @source.exec(ctx)
     if typeIsArray(arg)
-      arg = compact(arg)
       filtered =  numerical_sort(quantitiesOrArg(arg),"asc")
       quantityOrValue(filtered[0],arg)
 
@@ -108,7 +107,6 @@ module.exports.Max = class Max extends AggregateExpression
   exec: (ctx) ->
     arg = @source.exec(ctx)
     if typeIsArray(arg)
-      arg = compact(arg)
       filtered =  numerical_sort(quantitiesOrArg(arg),"desc")
       quantityOrValue(filtered[0],arg)
 
@@ -125,9 +123,6 @@ module.exports.MaxFunctionRef = class MaxFunctionRef extends FunctionRef
   exec: (ctx) ->
     @func.exec(ctx)
 
-doAverage = (list) ->
-  sum = filtered.reduce (x,y) -> x+y
-  sum / filtered.length
 
 module.exports.Avg = class Avg extends  AggregateExpression
   constructor:(json) ->
@@ -136,7 +131,6 @@ module.exports.Avg = class Avg extends  AggregateExpression
   exec: (ctx) ->
     arg = @source.exec(ctx)
     if typeIsArray(arg)
-      arg = compact(arg)
       filtered = quantitiesOrArg(arg)
       return null if filtered.length == 0
       sum = filtered.reduce (x,y) -> x+y
@@ -162,8 +156,7 @@ module.exports.Median = class Median extends AggregateExpression
   exec: (ctx) ->
     arg = @source.exec(ctx)
     if typeIsArray(arg)
-      arg = compact(arg)
-      filtered =  numerical_sort(quantitiesOrArg(arg,"asc"))
+      filtered =  numerical_sort(quantitiesOrArg(arg),"asc")
       if filtered.length == 0
         null
       else if (filtered.length % 2 == 1)
@@ -230,7 +223,6 @@ module.exports.StdDev = class StdDev extends AggregateExpression
   exec: (ctx) ->
     args = @source.exec(ctx)
     if typeIsArray(args)
-      args = compact(args)
       val = quantitiesOrArg(args)
       if val.length > 0 then quantityOrValue(@calculate(val),args)  else null
 
