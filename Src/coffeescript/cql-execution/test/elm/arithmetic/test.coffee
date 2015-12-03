@@ -2,6 +2,18 @@ should = require 'should'
 setup = require '../../setup'
 data = require './data'
 
+validateQuantity = (object,expectedValue,expectedUnit) ->
+  object.constructor.name.should.equal "Quantity"
+  if object.value
+    object.value.should.equal expectedValue 
+  else
+    (object.value == expectedValue).should.equal true
+  if object.unit
+    object.unit.should.equal expectedUnit 
+  else
+    (object.unit == expectedUnit).should.equal true
+  
+
 describe 'Add', ->
   @beforeEach ->
     setup @, data
@@ -354,46 +366,42 @@ describe 'Quantity', ->
   @beforeEach ->
     setup @, data
 
-  it "should be able to perform Quantity Addition", ->
-    aqq = @add_q_q.exec(@ctx)
-    aqq.value.should.equal 20
-    aqq.unit.should.equal 'days'
+  it "should be able to perform Quantity Addition", -> 
+    validateQuantity @add_q_q.exec(@ctx), 20 , 'days'
     adq = @add_d_q.exec(@ctx)
     adq.constructor.name.should.equal "DateTime"
     adq.year.should.equal 2000
     adq.month.should.equal 1
     adq.day.should.equal 11
+    validateQuantity @add_q_q_diff.exec(@ctx), (10 + (10/(24*60))), 'days'
 
 
-  it "should be able to perform Quantity Subtraction", ->
-    sqq = @sub_q_q.exec(@ctx)
-    sqq.value.should.equal 0
-    sqq.unit.should.equal 'days'
+  it "should be able to perform Quantity Subtraction", -> 
+    validateQuantity @sub_q_q.exec(@ctx), 0, 'days'
     sdq = @sub_d_q.exec(@ctx)
     sdq.constructor.name.should.equal "DateTime"
     sdq.year.should.equal 1999
     sdq.month.should.equal 12
     sdq.day.should.equal 22
 
-  it "should be able to perform Quantity Division", ->
-    dqd = @div_q_d.exec(@ctx)
-    dqd.constructor.name.should.equal "Quantity"
-    dqd.unit.should.equal "days"
-    dqd.value.should.equal 5
-    dqq = @div_q_q.exec(@ctx)
-    dqq.should.equal 1
+    validateQuantity @sub_q_q_diff.exec(@ctx), (10 - (10/(24*60))), 'days'
+  
+  it "should be able to perform Quantity Division", -> 
+    validateQuantity @div_q_d.exec(@ctx), 5, 'days'
+    validateQuantity @div_q_q.exec(@ctx), 1 , null
 
-  it "should be able to perform Quantity Multiplication", ->
+  it "should be able to perform Quantity Multiplication", -> 
+    # decilmal to quantity multiplication results in decimal value only
     mdq = @mul_d_q.exec(@ctx)
     mdq.constructor.name.should.equal "Quantity"
     mdq.unit.should.equal "days"
     mdq.value.should.equal 20
     mqd = @mul_q_d.exec(@ctx)
-    mqd.constructor.name.should.equal "Quantity"
-    mqd.unit.should.equal "days"
     mqd.value.should.equal 20
-
-  it "should be able to perform Quantity Absolution", ->
+    validateQuantity @mul_q_q.exec(@ctx), 20, "m2"
+    validateQuantity @mul_q_q_diff.exec(@ctx), 20, "m/d"
+    
+  it "should be able to perform Quantity Absolution", -> 
     q = @abs.exec(@ctx)
     q.value.should.equal 10
     q.unit.should.equal 'days'
