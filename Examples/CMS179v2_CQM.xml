@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<library xmlns="urn:hl7-org:elm:r1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:quick="http://hl7.org/fhir" xmlns:a="urn:hl7-org:cql-annotations:r1">
+<library xmlns="urn:hl7-org:elm:r1" xmlns:t="urn:hl7-org:elm-types:r1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:quick="http://hl7.org/fhir" xmlns:a="urn:hl7-org:cql-annotations:r1">
    <identifier id="CMS179" version="2"/>
    <schemaIdentifier id="urn:hl7-org:elm" version="r1"/>
    <usings>
-      <def localIdentifier="System" uri="urn:hl7-org:elm:r1"/>
+      <def localIdentifier="System" uri="urn:hl7-org:elm-types:r1"/>
       <def localIdentifier="QUICK" uri="http://hl7.org/fhir"/>
    </usings>
    <parameters>
       <def name="MeasurementPeriod" accessLevel="Public">
          <default lowClosed="true" highClosed="false" xsi:type="Interval">
-            <low name="DateTime" xsi:type="FunctionRef">
-               <operand valueType="Integer" value="2013" xsi:type="Literal"/>
-               <operand valueType="Integer" value="1" xsi:type="Literal"/>
-               <operand valueType="Integer" value="1" xsi:type="Literal"/>
-               <operand valueType="Integer" value="0" xsi:type="Literal"/>
-               <operand valueType="Integer" value="0" xsi:type="Literal"/>
-               <operand valueType="Integer" value="0" xsi:type="Literal"/>
-               <operand valueType="Integer" value="0" xsi:type="Literal"/>
+            <low xsi:type="DateTime">
+               <year valueType="t:Integer" value="2013" xsi:type="Literal"/>
+               <month valueType="t:Integer" value="1" xsi:type="Literal"/>
+               <day valueType="t:Integer" value="1" xsi:type="Literal"/>
+               <hour valueType="t:Integer" value="0" xsi:type="Literal"/>
+               <minute valueType="t:Integer" value="0" xsi:type="Literal"/>
+               <second valueType="t:Integer" value="0" xsi:type="Literal"/>
+               <millisecond valueType="t:Integer" value="0" xsi:type="Literal"/>
             </low>
-            <high name="DateTime" xsi:type="FunctionRef">
-               <operand valueType="Integer" value="2014" xsi:type="Literal"/>
-               <operand valueType="Integer" value="1" xsi:type="Literal"/>
-               <operand valueType="Integer" value="1" xsi:type="Literal"/>
-               <operand valueType="Integer" value="0" xsi:type="Literal"/>
-               <operand valueType="Integer" value="0" xsi:type="Literal"/>
-               <operand valueType="Integer" value="0" xsi:type="Literal"/>
-               <operand valueType="Integer" value="0" xsi:type="Literal"/>
+            <high xsi:type="DateTime">
+               <year valueType="t:Integer" value="2014" xsi:type="Literal"/>
+               <month valueType="t:Integer" value="1" xsi:type="Literal"/>
+               <day valueType="t:Integer" value="1" xsi:type="Literal"/>
+               <hour valueType="t:Integer" value="0" xsi:type="Literal"/>
+               <minute valueType="t:Integer" value="0" xsi:type="Literal"/>
+               <second valueType="t:Integer" value="0" xsi:type="Literal"/>
+               <millisecond valueType="t:Integer" value="0" xsi:type="Literal"/>
             </high>
          </default>
       </def>
@@ -84,7 +84,7 @@
                   <operand name="MeasurementPeriod" xsi:type="ParameterRef"/>
                </operand>
             </operand>
-            <operand valueType="Integer" value="18" xsi:type="Literal"/>
+            <operand valueType="t:Integer" value="18" xsi:type="Literal"/>
          </expression>
       </def>
       <def name="InpatientEncounters" context="Patient" accessLevel="Public">
@@ -161,8 +161,8 @@
          </expression>
       </def>
       <def name="WarfarinUsage" context="Patient" accessLevel="Public">
-         <expression name="Sum" xsi:type="FunctionRef">
-            <operand xsi:type="Query">
+         <expression xsi:type="Sum">
+            <source xsi:type="Query">
                <source alias="I">
                   <expression name="WarfarinUsageIntervals" xsi:type="ExpressionRef"/>
                </source>
@@ -176,7 +176,7 @@
                      </operand>
                   </expression>
                </return>
-            </operand>
+            </source>
          </expression>
       </def>
       <def name="INROutpatientLabResult" context="Patient" accessLevel="Public">
@@ -200,7 +200,7 @@
                                  <operand path="period" scope="E" xsi:type="Property"/>
                               </operand>
                            </operand>
-                           <operand valueType="Integer" value="23" xsi:type="Literal"/>
+                           <operand valueType="t:Integer" value="23" xsi:type="Literal"/>
                         </operand>
                         <operand xsi:type="In">
                            <operand path="appliesDateTime" scope="R" xsi:type="Property"/>
@@ -221,7 +221,7 @@
                <operand path="value" xsi:type="Property">
                   <source path="valueQuantity" scope="L" xsi:type="Property"/>
                </operand>
-               <operand valueType="Decimal" value="0.8" xsi:type="Literal"/>
+               <operand valueType="t:Decimal" value="0.8" xsi:type="Literal"/>
             </where>
             <return>
                <expression xsi:type="Tuple">
@@ -236,18 +236,18 @@
                            <operand path="value" xsi:type="Property">
                               <source path="valueQuantity" scope="L" xsi:type="Property"/>
                            </operand>
-                           <operand valueType="Decimal" value="10.0" xsi:type="Literal"/>
+                           <operand valueType="t:Decimal" value="10.0" xsi:type="Literal"/>
                         </condition>
-                        <then valueType="Decimal" value="10.0" xsi:type="Literal"/>
+                        <then valueType="t:Decimal" value="10.0" xsi:type="Literal"/>
                         <else path="value" xsi:type="Property">
                            <source path="valueQuantity" scope="L" xsi:type="Property"/>
                         </else>
                      </value>
                   </element>
                   <element name="distanceFromMidpoint">
-                     <value name="Abs" xsi:type="FunctionRef">
+                     <value xsi:type="Abs">
                         <operand xsi:type="Subtract">
-                           <operand valueType="Decimal" value="2.5" xsi:type="Literal"/>
+                           <operand valueType="t:Decimal" value="2.5" xsi:type="Literal"/>
                            <operand path="value" xsi:type="Property">
                               <source path="valueQuantity" scope="L" xsi:type="Property"/>
                            </operand>
@@ -275,8 +275,8 @@
                      </expression>
                   </source>
                   <return>
-                     <expression name="First" xsi:type="FunctionRef">
-                        <operand xsi:type="Query">
+                     <expression xsi:type="First">
+                        <source xsi:type="Query">
                            <source alias="R">
                               <expression name="INRResultsByDay" xsi:type="ExpressionRef"/>
                            </source>
@@ -289,7 +289,7 @@
                                  <expression path="distanceFromMidpoint" scope="R" xsi:type="Property"/>
                               </by>
                            </sort>
-                        </operand>
+                        </source>
                      </expression>
                   </return>
                </expression>
@@ -303,8 +303,8 @@
       </def>
       <def name="TherapeuticRange" context="Patient" accessLevel="Public">
          <expression lowClosed="true" highClosed="true" xsi:type="Interval">
-            <low valueType="Decimal" value="2.0" xsi:type="Literal"/>
-            <high valueType="Decimal" value="3.0" xsi:type="Literal"/>
+            <low valueType="t:Decimal" value="2.0" xsi:type="Literal"/>
+            <high valueType="t:Decimal" value="3.0" xsi:type="Literal"/>
          </expression>
       </def>
       <def name="INRIntervals" context="Patient" accessLevel="Public">
@@ -320,8 +320,8 @@
                            <value name="S" xsi:type="AliasRef"/>
                         </element>
                         <element name="endResult">
-                           <value name="First" xsi:type="FunctionRef">
-                              <operand xsi:type="Query">
+                           <value xsi:type="First">
+                              <source xsi:type="Query">
                                  <source alias="E">
                                     <expression name="INRResultsPerDay" xsi:type="ExpressionRef"/>
                                  </source>
@@ -329,7 +329,7 @@
                                     <operand path="resultDate" scope="S" xsi:type="Property"/>
                                     <operand path="resultDate" scope="E" xsi:type="Property"/>
                                  </where>
-                              </operand>
+                              </source>
                            </value>
                         </element>
                      </expression>
@@ -413,29 +413,29 @@
                                  </operand>
                               </operand>
                            </condition>
-                           <then asType="Decimal" xsi:type="As">
+                           <then asType="t:Decimal" xsi:type="As">
                               <operand xsi:type="Null"/>
                            </then>
                            <else xsi:type="Subtract">
-                              <operand name="Min" xsi:type="FunctionRef">
-                                 <operand xsi:type="List">
+                              <operand xsi:type="Min">
+                                 <source xsi:type="List">
                                     <element path="result" xsi:type="Property">
                                        <source path="endResult" scope="X" xsi:type="Property"/>
                                     </element>
                                     <element xsi:type="End">
                                        <operand name="TherapeuticRange" xsi:type="ExpressionRef"/>
                                     </element>
-                                 </operand>
+                                 </source>
                               </operand>
-                              <operand name="Max" xsi:type="FunctionRef">
-                                 <operand xsi:type="List">
+                              <operand xsi:type="Max">
+                                 <source xsi:type="List">
                                     <element path="result" xsi:type="Property">
                                        <source path="startResult" scope="X" xsi:type="Property"/>
                                     </element>
                                     <element xsi:type="Start">
                                        <operand name="TherapeuticRange" xsi:type="ExpressionRef"/>
                                     </element>
-                                 </operand>
+                                 </source>
                               </operand>
                            </else>
                         </then>
@@ -458,29 +458,29 @@
                                  </operand>
                               </operand>
                            </condition>
-                           <then asType="Decimal" xsi:type="As">
+                           <then asType="t:Decimal" xsi:type="As">
                               <operand xsi:type="Null"/>
                            </then>
                            <else xsi:type="Subtract">
-                              <operand name="Min" xsi:type="FunctionRef">
-                                 <operand xsi:type="List">
+                              <operand xsi:type="Min">
+                                 <source xsi:type="List">
                                     <element path="result" xsi:type="Property">
                                        <source path="startResult" scope="X" xsi:type="Property"/>
                                     </element>
                                     <element xsi:type="End">
                                        <operand name="TherapeuticRange" xsi:type="ExpressionRef"/>
                                     </element>
-                                 </operand>
+                                 </source>
                               </operand>
-                              <operand name="Max" xsi:type="FunctionRef">
-                                 <operand xsi:type="List">
+                              <operand xsi:type="Max">
+                                 <source xsi:type="List">
                                     <element path="result" xsi:type="Property">
                                        <source path="endResult" scope="X" xsi:type="Property"/>
                                     </element>
                                     <element xsi:type="Start">
                                        <operand name="TherapeuticRange" xsi:type="ExpressionRef"/>
                                     </element>
-                                 </operand>
+                                 </source>
                               </operand>
                            </else>
                         </else>
@@ -496,7 +496,7 @@
                               <source path="endResult" scope="X" xsi:type="Property"/>
                            </operand>
                         </operand>
-                        <operand valueType="Integer" value="56" xsi:type="Literal"/>
+                        <operand valueType="t:Integer" value="56" xsi:type="Literal"/>
                      </value>
                   </element>
                </expression>
@@ -528,21 +528,21 @@
                         <then name="ToDecimal" libraryName="System" xsi:type="FunctionRef">
                            <operand path="resultDays" scope="I" xsi:type="Property"/>
                         </then>
-                        <else name="Coalesce" xsi:type="FunctionRef">
+                        <else xsi:type="Coalesce">
                            <operand xsi:type="Multiply">
                               <operand name="ToDecimal" libraryName="System" xsi:type="FunctionRef">
                                  <operand path="resultDays" scope="I" xsi:type="Property"/>
                               </operand>
-                              <operand name="Abs" xsi:type="FunctionRef">
+                              <operand xsi:type="Abs">
                                  <operand xsi:type="Divide">
                                     <operand path="boundedDifference" scope="I" xsi:type="Property"/>
                                     <operand name="ToDecimal" libraryName="System" xsi:type="FunctionRef">
                                        <operand xsi:type="If">
                                           <condition xsi:type="Equal">
                                              <operand path="resultDays" scope="I" xsi:type="Property"/>
-                                             <operand valueType="Integer" value="0" xsi:type="Literal"/>
+                                             <operand valueType="t:Integer" value="0" xsi:type="Literal"/>
                                           </condition>
-                                          <then asType="Integer" xsi:type="As">
+                                          <then asType="t:Integer" xsi:type="As">
                                              <operand xsi:type="Null"/>
                                           </then>
                                           <else path="resultDays" scope="I" xsi:type="Property"/>
@@ -552,7 +552,7 @@
                               </operand>
                            </operand>
                            <operand name="ToDecimal" libraryName="System" xsi:type="FunctionRef">
-                              <operand valueType="Integer" value="0" xsi:type="Literal"/>
+                              <operand valueType="t:Integer" value="0" xsi:type="Literal"/>
                            </operand>
                         </else>
                      </value>
@@ -562,32 +562,32 @@
          </expression>
       </def>
       <def name="TherapeuticTimeInRange" context="Patient" accessLevel="Public">
-         <expression name="Round" xsi:type="FunctionRef">
+         <expression xsi:type="Round">
             <operand xsi:type="Multiply">
                <operand name="ToDecimal" libraryName="System" xsi:type="FunctionRef">
-                  <operand valueType="Integer" value="100" xsi:type="Literal"/>
+                  <operand valueType="t:Integer" value="100" xsi:type="Literal"/>
                </operand>
                <operand xsi:type="Divide">
-                  <operand name="Sum" xsi:type="FunctionRef">
-                     <operand xsi:type="Query">
+                  <operand xsi:type="Sum">
+                     <source xsi:type="Query">
                         <source alias="X">
                            <expression name="TherapeuticDays" xsi:type="ExpressionRef"/>
                         </source>
                         <return>
                            <expression path="daysInRange" scope="X" xsi:type="Property"/>
                         </return>
-                     </operand>
+                     </source>
                   </operand>
                   <operand name="ToDecimal" libraryName="System" xsi:type="FunctionRef">
-                     <operand name="Sum" xsi:type="FunctionRef">
-                        <operand xsi:type="Query">
+                     <operand xsi:type="Sum">
+                        <source xsi:type="Query">
                            <source alias="X">
                               <expression name="TherapeuticDays" xsi:type="ExpressionRef"/>
                            </source>
                            <return>
                               <expression path="resultDays" scope="X" xsi:type="Property"/>
                            </return>
-                        </operand>
+                        </source>
                      </operand>
                   </operand>
                </operand>
@@ -595,19 +595,19 @@
          </expression>
       </def>
       <def name="NumberOfValidIntervals" context="Patient" accessLevel="Public">
-         <expression name="Count" xsi:type="FunctionRef">
-            <operand xsi:type="Query">
+         <expression xsi:type="Count">
+            <source xsi:type="Query">
                <source alias="D">
                   <expression name="TherapeuticDays" xsi:type="ExpressionRef"/>
                </source>
                <where path="isValid" scope="D" xsi:type="Property"/>
-            </operand>
+            </source>
          </expression>
       </def>
       <def name="HasValidIntervals" context="Patient" accessLevel="Public">
          <expression xsi:type="GreaterOrEqual">
             <operand name="NumberOfValidIntervals" xsi:type="ExpressionRef"/>
-            <operand valueType="Integer" value="2" xsi:type="Literal"/>
+            <operand valueType="t:Integer" value="2" xsi:type="Literal"/>
          </expression>
       </def>
       <def name="InitialPopulation" context="Patient" accessLevel="Public">
@@ -626,7 +626,7 @@
                </operand>
                <operand xsi:type="GreaterOrEqual">
                   <operand name="WarfarinUsage" xsi:type="ExpressionRef"/>
-                  <operand valueType="Integer" value="180" xsi:type="Literal"/>
+                  <operand valueType="t:Integer" value="180" xsi:type="Literal"/>
                </operand>
             </operand>
             <operand xsi:type="Not">
@@ -643,8 +643,8 @@
          <expression name="TherapeuticTimeInRange" xsi:type="ExpressionRef"/>
       </def>
       <def name="MeasureScore" context="Population" accessLevel="Public">
-         <expression name="Avg" xsi:type="FunctionRef">
-            <operand name="MeasureObservation" xsi:type="ExpressionRef"/>
+         <expression xsi:type="Avg">
+            <source name="MeasureObservation" xsi:type="ExpressionRef"/>
          </expression>
       </def>
    </statements>

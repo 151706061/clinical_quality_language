@@ -11,8 +11,9 @@ It contains the following sub-projects:
 # Building the Project
 
 This project uses the [Gradle](http://www.gradle.org/) build system.  A gradle wrapper, which automatically downloads
-and uses an instance of gradle, is provided for convenience.  To build the project, simply execute the following
-command:
+and uses an instance of gradle, is provided for convenience.  To build the project, install the [Java SE Development
+Kit 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) (a.k.a. JDK 1.8), clone this 
+repository, then execute this command from within this directory:
 
     ./gradlew build
 
@@ -69,7 +70,7 @@ The following options are supported:
 * `--output` or `-o`: Specify the output file.  If not specified, the output file will have the
   same base name and location as the input file.  If only a directory is specified, the output
   file will have the same base name as the input file and be written to the requested directory.
-* `--format` or `-f`: Output as `xml` (default), `json`, or `coffee`.
+* `--format` or `-f`: Output as `XML` (default), `JSON`, or `COFFEE`.
 * `--date-range-optimization` or `-d`: Refactor simple during clauses into the ClinicalRequest.
 * `--annotations` or `-a`: Include annotations in the output (work in progress).
 * `--stdout` or `-s`: Write output to the console instead of a file.
